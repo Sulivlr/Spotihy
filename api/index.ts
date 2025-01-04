@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.use('/artists', artistsRouter)
 
 const run = async () => {
-    await mongoose.connect('mongodb://localhost/');
+    await mongoose.connect('mongodb://localhost/Spotihy');
     app.listen(port, () => {
         console.log(`Listening on port ${port}`);
     });
