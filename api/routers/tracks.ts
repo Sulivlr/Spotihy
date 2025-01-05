@@ -6,13 +6,20 @@ import mongoose from "mongoose";
 const tracksRouter = express.Router();
 
 tracksRouter.get('/', async (req, res, next) => {
+    const album = req.query.album;
     try {
-        const tracks = await Track.find().populate('album', 'title');
+        let tracks;
+        if (album) {
+            tracks = await Track.find({album}).populate('album', 'title');
+        } else {
+            tracks = await Track.find().populate('album', 'title');
+        }
         res.send(tracks);
     } catch (error) {
         next(error);
     }
 });
+
 
 tracksRouter.post('/', async (req, res, next) => {
     try {

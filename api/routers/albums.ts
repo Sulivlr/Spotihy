@@ -7,13 +7,20 @@ import mongoose from "mongoose";
 const albumsRouter = express.Router();
 
 albumsRouter.get('/', async (req, res, next) => {
+    const artist = req.query.artist;
     try {
-        const albums = await Album.find().populate('artist', 'name');
-        res.send(albums)
+        let albums;
+        if (artist) {
+            albums = await Album.find({artist}).populate('artist', 'name');
+        } else {
+            albums = await Album.find().populate('artist', 'name');
+        }
+        res.send(albums);
     } catch (error) {
         next(error);
     }
 });
+
 
 albumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
     try {
@@ -37,10 +44,11 @@ albumsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
 albumsRouter.get('/:id', async (req, res, next) => {
     try {
         const album = await Album.findById(req.params.id);
-        if (album === null) {{
-            res.status(404).send({error: 'Album not found'});
-        }}
-
+        if (album === null) {
+            {
+                res.status(404).send({error: 'Album not found'});
+            }
+        }
         res.send(album);
     } catch (error) {
         next(error);
