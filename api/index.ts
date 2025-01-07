@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import artistsRouter from "./routers/artists";
 import albumsRouter from "./routers/albums";
 import tracksRouter from "./routers/tracks";
-import userRouter from "./routers/Users";
+import userRouter from "./routers/users";
 
 const app = express();
 const port = 8000;
