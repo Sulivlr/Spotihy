@@ -2,9 +2,9 @@ import express from 'express';
 import User from "../models/User";
 import mongoose from "mongoose";
 
-const userRouter = express.Router();
+const usersRouter = express.Router();
 
-userRouter.post('/', async (req, res, next) => {
+usersRouter.post('/', async (req, res, next) => {
     try {
         const user = new User({
             username: req.body.username,
@@ -21,16 +21,16 @@ userRouter.post('/', async (req, res, next) => {
     }
 });
 
-userRouter.post('/sessions', async (req, res, next) => {
+usersRouter.post('/sessions', async (req, res, next) => {
     try {
         const user = await User.findOne({username: req.body.username});
         if (!user) {
-            res.status(422).send({error: 'Username or password is wrong'});
+            res.status(422).send({error: 'Username is wrong'});
             return;
         }
         const isMatch = await user.checkPassword(req.body.password);
         if (!isMatch) {
-            res.status(422).send({error: 'Username or password is wrong'});
+            res.status(422).send({error: 'Password is wrong'});
             return;
         }
         user.generateToken();
@@ -42,4 +42,4 @@ userRouter.post('/sessions', async (req, res, next) => {
     }
 });
 
-export default userRouter;
+export default usersRouter;

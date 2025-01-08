@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import artistsRouter from "./routers/artists";
 import albumsRouter from "./routers/albums";
 import tracksRouter from "./routers/tracks";
-import userRouter from "./routers/users";
+import trackHistoriesRouter from "./routers/trackHistories";
+import usersRouter from "./routers/users";
 
 const app = express();
 const port = 8000;
@@ -17,7 +18,8 @@ app.use(express.static('public'));
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsRouter);
 app.use('/tracks', tracksRouter);
-app.use('/users', userRouter);
+app.use('/users', usersRouter);
+app.use('/track_history', trackHistoriesRouter);
 
 const run = async () => {
     await mongoose.connect('mongodb://localhost/Spotihy');
