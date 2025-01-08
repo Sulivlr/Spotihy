@@ -40,4 +40,13 @@ trackHistoriesRouter.post('/', async (req, res, next) => {
     }
 });
 
+trackHistoriesRouter.get('/', async (req, res, next) => {
+   try {
+       const trackHistories = await TrackHistory.find().populate('track');
+        res.send(trackHistories);
+   } catch (error) {
+       next(error);
+   }
+});
+
 export default trackHistoriesRouter;
