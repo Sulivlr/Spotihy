@@ -23,6 +23,10 @@ const TrackSchema = new Schema({
     duration: {
         type: String,
         default: '3:16',
+    },
+    number: {
+        type: Number,
+        required: true,
     }
 });
 

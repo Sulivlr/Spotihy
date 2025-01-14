@@ -21,9 +21,9 @@ const AlbumSchema = new Schema({
         required: true,
     },
     created_at: {
-        type: String,
+        type: Number,
         required: true,
-        default: () => new Date().toISOString(),
+        default: Date.now(),
     },
     image: {
         type: String,
