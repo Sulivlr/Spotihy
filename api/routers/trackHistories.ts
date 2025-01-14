@@ -5,7 +5,7 @@ import User from "../models/User";
 
 const trackHistoriesRouter = express.Router();
 
-trackHistoriesRouter.post('/', async (req, res, next) => {
+trackHistoriesRouter.post('/',  async (req, res, next) => {
     try {
         const token = req.get('Authorization');
 
