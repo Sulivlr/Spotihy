@@ -6,15 +6,22 @@ import { fetchArtists } from './artistsThunks';
 import { Artist } from '../../types';
 import { API_URL } from '../../config';
 import notFoundImage from '../../assets/images/imgNotFound.jpg';
+import {useNavigate} from 'react-router-dom';
+
 
 const ArtistList = () => {
   const artists = useAppSelector(selectArtists);
   const artistsFetching = useAppSelector(selectArtistsFetching);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchArtists());
   }, [dispatch]);
+
+  const navigateToAlbum = (id: string) => {
+    navigate(`/albums/${id}`);
+  }
 
   return (
     <Grid container spacing={3} sx={{ padding: 2 }}>
@@ -28,7 +35,7 @@ const ArtistList = () => {
         }
 
         return (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={artist._id}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={artist._id} onClick={() => navigateToAlbum(artist._id)}>
             <Card
               sx={{
                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',

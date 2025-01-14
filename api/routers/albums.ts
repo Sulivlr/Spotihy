@@ -11,7 +11,7 @@ albumsRouter.get('/', async (req, res, next) => {
     try {
         let albums;
         if (artist) {
-            albums = await Album.find({artist}).populate('artist', 'name');
+            albums = await Album.find({artist}).populate('artist', 'name').sort({created_at: -1});
         } else {
             albums = await Album.find().populate('artist', 'name');
         }

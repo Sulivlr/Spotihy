@@ -6,6 +6,7 @@ import albumsRouter from "./routers/albums";
 import tracksRouter from "./routers/tracks";
 import trackHistoriesRouter from "./routers/trackHistories";
 import usersRouter from "./routers/users";
+import config from "./config";
 
 const app = express();
 const port = 8000;
@@ -22,7 +23,7 @@ app.use('/users', usersRouter);
 app.use('/track_history', trackHistoriesRouter);
 
 const run = async () => {
-    await mongoose.connect('mongodb://localhost/Spotihy');
+    await mongoose.connect(config.database);
     app.listen(port, () => {
         console.log(`Listening on port ${port}`);
     });

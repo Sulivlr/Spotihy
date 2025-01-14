@@ -24,7 +24,7 @@ const TrackSchema = new Schema({
         type: String,
         default: '3:16',
     },
-    number: {
+    track_number: {
         type: Number,
         required: true,
     }
