@@ -10,11 +10,24 @@ tracksRouter.get('/', async (req, res, next) => {
     try {
         let tracks;
         if (album) {
-            tracks = await Track.find({album}).populate('album', 'title');
+            tracks = await Track.find({album}).populate('album', 'title').sort('track_number');
         } else {
             tracks = await Track.find().populate('album', 'title');
         }
         res.send(tracks);
+    } catch (error) {
+        next(error);
+    }
+});
+
+tracksRouter.get('/:id', async (req, res, next) => {
+    const id = req.params.id;
+    if (!id) {
+        res.status(404).send({ error: 'id not found' });
+    }
+    try {
+        let tracks = await Track.find().populate('album');
+        res.status(200).send(tracks);
     } catch (error) {
         next(error);
     }

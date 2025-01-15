@@ -20,105 +20,163 @@ const run = async () => {
         console.log("Skipping drop...");
     }
 
-    const [Jungkook, Jimin, Rose, BrunoMars ] = await Artist.create(
+    const [BEAST, BTS ] = await Artist.create(
         {
-            name: 'Jungkook',
-            image: 'fixtures/Jungkook.jpg'
+            name: 'BEAST',
+            image: 'fixtures/BEAST.jpg',
         },
         {
-            name: 'Jimin',
-            image: 'fixtures/Jimin.jpg',
+            name: 'BTS',
+            image: 'fixtures/BTS.JPG'
         },
-        {
-            name: 'Rose',
-            image: 'fixtures/Rose.jpg',
-        },
-        {
-            name: 'BrunoMars',
-            image: 'fixtures/Bruno.jpg',
-        }
     );
 
-    const [Jungkook_Golden, Jimin_Face, Rose_Rosie, DieWithASmile] = await Album.create(
+    const [WINGS, Youth, TIME, FictionAndFact, ] = await Album.create(
         {
-            title: 'Standing Next To You',
-            artist: Jungkook,
-            created_at: 2023,
-            image: 'fixtures/Jungkook.jpg',
+            title: 'WINGS',
+            artist: BTS,
+            created_at: 2016,
+            image: 'fixtures/WINGS.jpg',
         },
         {
-            title: 'Face',
-            artist: Jimin,
-            created_at: 2023,
-            image: 'fixtures/Jimin.jpg',
+            title: 'Youth',
+            artist: BTS,
+            created_at: 2015,
+            image: 'fixtures/Youth.jpg',
         },
         {
-            title: 'The Wind Of Spring',
-            artist: Rose,
-            created_at: 2024,
-            image: 'fixtures/Rose.jpg',
+            title: 'TIME',
+            artist: BEAST,
+            created_at: 2014,
+            image: 'fixtures/TIME.jpg',
         },
         {
-            title: 'Die With A Smile',
-            artist: BrunoMars,
-            created_at: 2024,
-            image: 'fixtures/Bruno.jpg',
+            title: 'Fiction And Fact',
+            artist: BEAST,
+            created_at: 2011,
+            image: 'fixtures/FictionAndFact.jpg',
         },
-        {
-            title: 'Apt',
-            artist: Rose, BrunoMars,
-            created_at: 2024,
-            image: 'fixtures/Rose.jpg',
-        }
     );
     await Track.create(
         {
-            title: 'Standing Next To You',
+            title: 'Fiction',
             track_number: 1,
-            album: Jungkook_Golden,
+            album: FictionAndFact,
+            duration: '3:54'
+        },
+        {
+            title: 'On Rainy Days',
+            track_number: 2,
+            album: FictionAndFact,
+            duration: '3:46'
+        },
+        {
+            title: 'Lightless',
+            track_number: 3,
+            album: FictionAndFact,
             duration: '3:27'
         },
         {
-            title: '3D',
-            track_number: 2,
-            album: Jungkook_Golden,
-            duration: '3:22'
+            title: 'The fact',
+            track_number: 4,
+            album: FictionAndFact,
+            duration: '2:20',
         },
         {
-            title: 'Seven',
-            track_number: 3,
-            album: Jungkook_Golden,
-            duration: '3:14'
+            title: 'Back To You',
+            track_number: 5,
+            album: FictionAndFact,
+            duration: '3:07'
         },
         {
-            title: 'Like Crazy',
+            title: '12:30',
             track_number: 1,
-            album: Jimin_Face,
-            duration: '3:32',
+            album: TIME,
+            duration: '3:53'
         },
         {
-            title: 'Who',
+            title: 'Drive',
             track_number: 2,
-            album: Jimin_Face,
-            duration: '3:00'
+            album: TIME,
+            duration: '3:12'
         },
         {
-            title: 'Filer',
+            title: 'Close My Eyes',
             track_number: 3,
-            album: Jimin_Face,
-            duration: '3:02'
+            album: TIME,
+            duration: '3:27'
         },
         {
-            title: 'Apt',
+            title: 'So hot',
+            track_number: 4,
+            album: TIME,
+            duration: '3:09'
+        },
+        {
+            title: 'It\'s All Good ',
+            track_number: 5,
+            album: TIME,
+            duration: '3:39'
+        },
+        {
+            title: 'RUN',
             track_number: 1,
-            album: Rose_Rosie,
-            duration: '2:49'
+            album: Youth,
+            duration: '3:58'
         },
         {
-            title: 'Die With A Smile',
+            title: 'FIRE',
             track_number: 2,
-            album: DieWithASmile,
-            duration: '4:13'
+            album: Youth,
+            duration: '3:26'
+        },
+        {
+            title: 'DOPE',
+            track_number: 3,
+            album: Youth,
+            duration: '4:02'
+        },
+        {
+            title: 'Save Me',
+            track_number: 4,
+            album: Youth,
+            duration: '3:20'
+        },
+        {
+            title: 'Butterfly',
+            track_number: 5,
+            album: Youth,
+            duration: '4:01'
+        },
+        {
+            title: 'Blood Sweat & Tears',
+            track_number: 1,
+            album: WINGS,
+            duration: '3:38'
+        },
+        {
+            title: 'BTS Cypher 4',
+            track_number: 2,
+            album: WINGS,
+            duration: '4:55'
+        },
+        {
+            title: 'Boy Meets Evil',
+            track_number: 3,
+            album: WINGS,
+            duration: '2:02'
+        },
+        {
+            title: '21st Century Girl',
+            track_number: 4,
+            album: WINGS,
+            duration: '3:13'
+        },
+        {
+            title: 'WINGS',
+            track_number: 5,
+            album: WINGS,
+            duration: '2:24'
         },
     );
 

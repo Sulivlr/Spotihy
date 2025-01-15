@@ -1,6 +1,6 @@
 import { AppBar, Grid2, styled, Toolbar, Typography, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { MusicNote, Search, AccountCircle } from '@mui/icons-material';
+import { MusicNote, AccountCircle } from '@mui/icons-material';
 
 const StyledLink = styled(Link)({
   textDecoration: 'none',
@@ -29,9 +29,6 @@ const AppToolBar = () => {
           </Typography>
         </Grid2>
         <Grid2 container justifyContent="flex-end" alignItems="center" sx={{ gap: 2 }}>
-          <IconButton sx={{ color: '#FFFFFF' }}>
-            <Search />
-          </IconButton>
           <IconButton sx={{ color: '#FFFFFF' }}>
             <AccountCircle />
           </IconButton>

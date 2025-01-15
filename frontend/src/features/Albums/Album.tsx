@@ -21,8 +21,8 @@ const AlbumList = () => {
     }
   }, [dispatch, id]);
 
-  const navigateToAlbum = (albumId: string) => {
-    navigate(`/albums/${albumId}`);
+  const navigateToAlbum = (trackId: string) => {
+    navigate(`/tracks/${trackId}`);
   };
 
   return (
