@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import Album from './features/Albums/Album';
 import ArtistList from './features/Artists/ArtistList';
 import Track from './features/Tracks/Track';
+import Register from './features/users/Register';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             <Route path="/" element={<ArtistList/>}/>
             <Route path="/albums/:id" element={<Album/>} />
             <Route path="/tracks/:id" element={<Track />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<Typography variant="h1">Page Doesn't Exist</Typography>}/>
           </Routes>
         </Container>
