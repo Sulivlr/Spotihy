@@ -1,30 +1,34 @@
-import {User} from '../../types';
 import React, {useState} from 'react';
-import {Button, Grid, Menu, MenuItem} from '@mui/material';
+import {Button, Grid2, Menu, MenuItem} from '@mui/material';
+import {AccountCircle} from '@mui/icons-material';
+import {useAppDispatch} from '../../app/hooks';
+import {logout} from '../../features/users/usersThunks';
 
-interface Props {
-  user: User;
-}
 
-const UserMenu: React.FC<Props> = ({user}) => {
+const UserMenu = () => {
+  const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const isOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   }
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   }
   return (
-    <Grid item>
-      <Button onClick={handleClick} color="inherit">Hello {user.username} !</Button>
+    <Grid2>
+      <Button onClick={handleClick} color="inherit">
+        <AccountCircle/>
+      </Button>
       <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose} keepMounted>
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
-    </Grid>
+    </Grid2>
   );
 };
 

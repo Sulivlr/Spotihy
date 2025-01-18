@@ -5,19 +5,19 @@ import User from "../models/User";
 
 const trackHistoriesRouter = express.Router();
 
-trackHistoriesRouter.post('/',  async (req, res, next) => {
+trackHistoriesRouter.post('/', async (req, res, next) => {
     try {
         const token = req.get('Authorization');
 
         if (!token) {
-             res.status(401).send({ error: 'No Token present' });
+            res.status(401).send({error: 'No Token present'});
         }
 
-        const user = await User.findOne({ token });
+        const user = await User.findOne({token});
 
         if (!user) {
-             res.status(401).send({ error: 'Unauthorized' });
-             return;
+            res.status(401).send({error: 'Unauthorized'});
+            return;
         }
 
         const trackHistoryData = {
@@ -34,19 +34,19 @@ trackHistoriesRouter.post('/',  async (req, res, next) => {
         res.status(200).send(populatedTrackHistory);
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
-             res.status(400).send(error);
+            res.status(400).send(error);
         }
         next(error);
     }
 });
 
 trackHistoriesRouter.get('/', async (req, res, next) => {
-   try {
-       const trackHistories = await TrackHistory.find().populate('track');
+    try {
+        const trackHistories = await TrackHistory.find().populate('track');
         res.send(trackHistories);
-   } catch (error) {
-       next(error);
-   }
+    } catch (error) {
+        next(error);
+    }
 });
 
 export default trackHistoriesRouter;

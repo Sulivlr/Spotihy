@@ -1,4 +1,4 @@
-import {AppBar, Grid, styled, Toolbar, Typography} from '@mui/material';
+import {AppBar, Grid2, styled, Toolbar, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
 import {MusicNote} from '@mui/icons-material';
 import {selectUser} from '../../features/users/usersSlice';
@@ -28,23 +28,23 @@ const AppToolBar = () => {
       }}
     >
       <Toolbar sx={{justifyContent: 'space-between', padding: '0 16px'}}>
-        <Grid container alignItems="center">
-          <Grid item>
+        <Grid2 container alignItems="center">
+          <Grid2>
             <MusicNote fontSize="large" sx={{color: '#FFFFFF', mr: 1}}/>
             <Typography variant="h5" sx={{color: '#FFFFFF', fontWeight: 700}}>
               <StyledLink to="/">Spotihy</StyledLink>
             </Typography>
-          </Grid>
-        </Grid>
-        <Grid container justifyContent="flex-end" alignItems="center" sx={{gap: 2}}>
+          </Grid2>
+        </Grid2>
+        <Grid2 container justifyContent="flex-end" alignItems="center" sx={{gap: 2}}>
           {user ? (
-            <Grid item>
-                <UserMenu user={user} />
-            </Grid>
+            <Grid2>
+              <UserMenu/>
+            </Grid2>
           ) : (
-            <AnonymousMenu />
+            <AnonymousMenu/>
           )}
-        </Grid>
+        </Grid2>
       </Toolbar>
     </AppBar>
   );
