@@ -1,6 +1,8 @@
-import {AppBar, Grid2, IconButton, styled, Toolbar, Typography} from '@mui/material';
+import {AppBar, Grid, IconButton, styled, Toolbar, Typography} from '@mui/material';
 import {Link, NavLink} from 'react-router-dom';
-import {AccountCircle, MusicNote} from '@mui/icons-material';
+import {AccountCircle, Login, MusicNote} from '@mui/icons-material';
+import {selectUser} from '../../features/users/usersSlice';
+import {useAppSelector} from '../../app/hooks';
 
 const StyledLink = styled(Link)({
   textDecoration: 'none',
@@ -11,6 +13,8 @@ const StyledLink = styled(Link)({
 });
 
 const AppToolBar = () => {
+  const user = useAppSelector(selectUser);
+
   return (
     <AppBar
       position="sticky"
@@ -22,17 +26,36 @@ const AppToolBar = () => {
       }}
     >
       <Toolbar sx={{justifyContent: 'space-between', padding: '0 16px'}}>
-        <Grid2 container alignItems="center">
-          <MusicNote fontSize="large" sx={{color: '#FFFFFF', mr: 1}}/>
-          <Typography variant="h5" sx={{color: '#FFFFFF', fontWeight: 700}}>
-            <StyledLink to="/">Spotihy</StyledLink>
-          </Typography>
-        </Grid2>
-        <Grid2 container justifyContent="flex-end" alignItems="center" sx={{gap: 2}}>
-          <IconButton component={NavLink} to="/register" sx={{color: '#FFFFFF'}}>
-            <AccountCircle/>
-          </IconButton>
-        </Grid2>
+        <Grid container alignItems="center">
+          <Grid item>
+            <MusicNote fontSize="large" sx={{color: '#FFFFFF', mr: 1}}/>
+            <Typography variant="h5" sx={{color: '#FFFFFF', fontWeight: 700}}>
+              <StyledLink to="/">Spotihy</StyledLink>
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid container justifyContent="flex-end" alignItems="center" sx={{gap: 2}}>
+          {user ? (
+            <Grid item>
+              <IconButton component={NavLink} to="/login" sx={{color: '#FFFFFF'}}>
+                <Login/>
+              </IconButton>
+            </Grid>
+          ) : (
+            <>
+              <Grid item>
+                <IconButton component={NavLink} to="/login" sx={{color: '#FFFFFF'}}>
+                  <Login/>
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton component={NavLink} to="/register" sx={{color: '#FFFFFF'}}>
+                  <AccountCircle/>
+                </IconButton>
+              </Grid>
+            </>
+          )}
+        </Grid>
       </Toolbar>
     </AppBar>
   );

@@ -25,12 +25,12 @@ usersRouter.post('/sessions', async (req, res, next) => {
     try {
         const user = await User.findOne({username: req.body.username});
         if (!user) {
-            res.status(422).send({error: 'Username is wrong'});
+            res.status(400).send({error: 'Username is wrong'});
             return;
         }
         const isMatch = await user.checkPassword(req.body.password);
         if (!isMatch) {
-            res.status(422).send({error: 'Password is wrong'});
+            res.status(400).send({error: 'Password is wrong'});
             return;
         }
         user.generateToken();

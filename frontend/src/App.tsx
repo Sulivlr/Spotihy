@@ -5,6 +5,7 @@ import Album from './features/Albums/Album';
 import ArtistList from './features/Artists/ArtistList';
 import Track from './features/Tracks/Track';
 import Register from './features/users/Register';
+import Login from './features/users/Login';
 
 const App = () => {
   return (
@@ -16,9 +17,10 @@ const App = () => {
         <Container maxWidth="xl" component="main">
           <Routes>
             <Route path="/" element={<ArtistList/>}/>
-            <Route path="/albums/:id" element={<Album/>} />
-            <Route path="/tracks/:id" element={<Track />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/albums/:id" element={<Album/>}/>
+            <Route path="/tracks/:id" element={<Track/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/login" element={<Login/>}/>
             <Route path="*" element={<Typography variant="h1">Page Doesn't Exist</Typography>}/>
           </Routes>
         </Container>

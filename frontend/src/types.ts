@@ -21,6 +21,11 @@ export interface Track {
   track_number: number;
 }
 
+export interface LoginMutation {
+  username: string;
+  password: string;
+}
+
 export interface RegisterMutation {
   username: string;
   password: string;
@@ -42,4 +47,8 @@ export interface ValidationError {
   message: string;
   name: string;
   _message: string;
+}
+
+export interface GlobalError {
+  error: string;
 }
