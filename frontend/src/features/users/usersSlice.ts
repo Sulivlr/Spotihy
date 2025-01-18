@@ -1,17 +1,17 @@
-import {User} from '../../types';
+import {User, ValidationError} from '../../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {register} from './usersThunks';
 
 export interface UsersState {
   user: User | null;
   registerLoading: boolean;
-  registerError: boolean;
+  registerError: ValidationError | null;
 }
 
 const initialState: UsersState = {
   user: null,
   registerLoading: false,
-  registerError: false,
+  registerError: null,
 };
 
 export const usersSlice = createSlice({
@@ -21,13 +21,13 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
       state.registerLoading = true;
-      state.registerError = false;
+      state.registerError = null;
     }).addCase(register.fulfilled, (state, {payload: user}) => {
       state.registerLoading = false;
       state.user = user;
-    }).addCase(register.rejected, (state) => {
+    }).addCase(register.rejected, (state, {payload: error}) => {
       state.registerLoading = false;
-      state.registerError = true;
+      state.registerError = error || null;
     });
   },
   selectors: {

@@ -12,10 +12,16 @@ const Register = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectRegisterError);
   const navigate = useNavigate();
+
+
   const [state, setState] = useState<RegisterMutation>({
     username: '',
     password: '',
   });
+
+  const getFieldError = (fieldName: string) => {
+    return error?.errors[fieldName]?.message;
+  }
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
@@ -42,7 +48,7 @@ const Register = () => {
         <LockOutlinedIcon/>
       </Avatar>
       <Typography component="h1" variant="h5">Sign Up</Typography>
-      <Box component="form" onSubmit={submitFormHandler} sx={{mt: 2}}>
+      <Box component="form" noValidate onSubmit={submitFormHandler} sx={{mt: 2}}>
         <Grid direction="column" container spacing={2}>
           <Grid item>
             <TextField
@@ -52,6 +58,8 @@ const Register = () => {
               autoComplete="new-username"
               value={state.username}
               onChange={inputChangeHandler}
+              error={Boolean(getFieldError('username'))}
+              helperText={getFieldError('username')}
             />
           </Grid>
           <Grid item>
@@ -63,6 +71,8 @@ const Register = () => {
               autoComplete="new-password"
               value={state.password}
               onChange={inputChangeHandler}
+              error={Boolean(getFieldError('password'))}
+              helperText={getFieldError('password')}
             />
           </Grid>
         </Grid>
