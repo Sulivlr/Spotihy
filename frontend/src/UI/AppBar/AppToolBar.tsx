@@ -1,8 +1,10 @@
-import {AppBar, Grid, IconButton, styled, Toolbar, Typography} from '@mui/material';
-import {Link, NavLink} from 'react-router-dom';
-import {AccountCircle, Login, MusicNote} from '@mui/icons-material';
+import {AppBar, Grid, styled, Toolbar, Typography} from '@mui/material';
+import {Link} from 'react-router-dom';
+import {MusicNote} from '@mui/icons-material';
 import {selectUser} from '../../features/users/usersSlice';
 import {useAppSelector} from '../../app/hooks';
+import AnonymousMenu from './AnonymousMenu';
+import UserMenu from './UserMenu';
 
 const StyledLink = styled(Link)({
   textDecoration: 'none',
@@ -37,23 +39,10 @@ const AppToolBar = () => {
         <Grid container justifyContent="flex-end" alignItems="center" sx={{gap: 2}}>
           {user ? (
             <Grid item>
-              <IconButton component={NavLink} to="/login" sx={{color: '#FFFFFF'}}>
-                <Login/>
-              </IconButton>
+                <UserMenu user={user} />
             </Grid>
           ) : (
-            <>
-              <Grid item>
-                <IconButton component={NavLink} to="/login" sx={{color: '#FFFFFF'}}>
-                  <Login/>
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton component={NavLink} to="/register" sx={{color: '#FFFFFF'}}>
-                  <AccountCircle/>
-                </IconButton>
-              </Grid>
-            </>
+            <AnonymousMenu />
           )}
         </Grid>
       </Toolbar>
