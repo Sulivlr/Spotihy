@@ -4,7 +4,7 @@ import {UserFields} from "../types";
 import User from "../models/User";
 
 export interface RequestWithUser extends Request {
-    user?: HydratedDocument<UserFields>;
+    user: HydratedDocument<UserFields>;
 }
 
 const auth = async (expressReq: Request, res: Response, next: NextFunction) => {
@@ -12,7 +12,6 @@ const auth = async (expressReq: Request, res: Response, next: NextFunction) => {
     const token = req.get('Authorization');
     if (!token) {
         res.status(401).send({error: 'No Token present'});
-        return;
     }
     const user = await User.findOne({token});
     if (!user) {
@@ -20,7 +19,7 @@ const auth = async (expressReq: Request, res: Response, next: NextFunction) => {
         return;
     }
     req.user = user;
-    next();
+    return next();
 };
 
 export default auth;

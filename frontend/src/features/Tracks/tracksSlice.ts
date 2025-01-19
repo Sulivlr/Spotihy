@@ -5,11 +5,14 @@ import {fetchTracks} from './tracksThunks';
 export interface TracksState {
   items: Track[];
   itemsFetching: boolean;
+  trackHistoryPlaying: null | string;
+
 }
 
 const initialState: TracksState = {
   items: [],
   itemsFetching: false,
+  trackHistoryPlaying: null,
 };
 
 export const tracksSlice = createSlice({

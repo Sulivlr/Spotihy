@@ -22,6 +22,7 @@ const TrackList = () => {
     navigate(`/tracks/${trackId}`);
   };
 
+
   if (tracksFetching) {
     return (
       <Grid item xs={12} sx={{textAlign: 'center'}}>

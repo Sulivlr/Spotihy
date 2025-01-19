@@ -37,6 +37,13 @@ export interface User {
   token: string;
 }
 
+export interface TrackHistory {
+  _id: string;
+  user: string;
+  track: Track;
+  datetime: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

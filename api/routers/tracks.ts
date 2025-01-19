@@ -2,6 +2,7 @@ import express from 'express';
 import Track from "../models/Track";
 import {TrackMutation} from "../types";
 import mongoose from "mongoose";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const tracksRouter = express.Router();
 
@@ -34,7 +35,7 @@ tracksRouter.get('/:id', async (req, res, next) => {
 });
 
 
-tracksRouter.post('/', async (req, res, next) => {
+tracksRouter.post('/', auth, async (req, res, next) => {
     try {
         const trackData: TrackMutation = {
             album: req.body.album,

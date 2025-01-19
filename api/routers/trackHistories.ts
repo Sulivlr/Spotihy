@@ -1,50 +1,56 @@
 import express from 'express';
 import TrackHistory from "../models/TrackHistory";
 import mongoose from "mongoose";
-import User from "../models/User";
+import auth, {RequestWithUser} from "../middleware/auth";
+import user from "../models/User";
 
 const trackHistoriesRouter = express.Router();
 
-trackHistoriesRouter.post('/', async (req, res, next) => {
+trackHistoriesRouter.post('/', auth, async (req, res, next) => {
+    let expressReq = req as RequestWithUser;
+    const user = expressReq.user;
     try {
-        const token = req.get('Authorization');
-
-        if (!token) {
-            res.status(401).send({error: 'No Token present'});
-        }
-
-        const user = await User.findOne({token});
-
-        if (!user) {
-            res.status(401).send({error: 'Unauthorized'});
-            return;
-        }
-
         const trackHistoryData = {
             user: user._id,
             track: req.body.track,
-            datetime: new Date().toISOString(),
+            datetime: new Date(),
         };
 
         const trackHistory = new TrackHistory(trackHistoryData);
         await trackHistory.save();
-
-        const populatedTrackHistory = await TrackHistory.find(trackHistory._id).populate('user');
-
-        res.status(200).send(populatedTrackHistory);
+        res.send(trackHistory);
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
-            res.status(400).send(error);
+            res.status(400).send({error: error.message});
         }
         next(error);
     }
 });
 
-trackHistoriesRouter.get('/', async (req, res, next) => {
+trackHistoriesRouter.get('/', auth, async (req, res, next) => {
     try {
-        const trackHistories = await TrackHistory.find().populate('track');
+        const expressReq = req as RequestWithUser;
+        const user = expressReq.user;
+
+        const trackHistories = await TrackHistory.find({ user: user._id })
+            .populate({
+                path: 'track',
+                populate: {
+                    path: 'album',
+                    model: 'Album',
+                    populate: {
+                        path: 'artist',
+                        model: 'Artist',
+                    },
+                },
+            })
+            .sort({ datetime: -1 });
+
         res.send(trackHistories);
     } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            res.status(400).send({error: error.message});
+        }
         next(error);
     }
 });
