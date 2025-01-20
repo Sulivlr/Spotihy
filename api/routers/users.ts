@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const usersRouter = express.Router();
 
-usersRouter.post('/', async (req, res, next) => {
+usersRouter.post('/register', async (req, res, next) => {
     try {
         const user = new User({
             username: req.body.username,
