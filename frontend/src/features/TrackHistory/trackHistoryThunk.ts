@@ -6,11 +6,10 @@ import {TrackHistory} from '../../types';
 export const fetchTrackHistory = createAsyncThunk<TrackHistory[], void, {state: RootState}>(
   'trackHistory',
   async (_arg, {getState}) => {
-    const token = getState().users.user?.token;
-    const {data: TrackHistory} = await axiosApi.get<TrackHistory[]>(`/track_history`,
-      {headers: {Authorization: token}}
-      );
-    console.log(TrackHistory)
+    const token = getState().users.user?.token
+    const {data: TrackHistory} = await axiosApi.get<TrackHistory[]>('track_history',
+      {headers: {Authorization: token}},
+      )
     return TrackHistory;
   }
 );

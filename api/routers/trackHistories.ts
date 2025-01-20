@@ -1,8 +1,7 @@
-import express from 'express';
 import TrackHistory from "../models/TrackHistory";
 import mongoose from "mongoose";
 import auth, {RequestWithUser} from "../middleware/auth";
-import user from "../models/User";
+import express from "express";
 
 const trackHistoriesRouter = express.Router();
 
@@ -32,7 +31,7 @@ trackHistoriesRouter.get('/', auth, async (req, res, next) => {
         const expressReq = req as RequestWithUser;
         const user = expressReq.user;
 
-        const trackHistories = await TrackHistory.find({ user: user._id })
+        const trackHistories = await TrackHistory.find({user: user._id})
             .populate({
                 path: 'track',
                 populate: {
@@ -44,7 +43,7 @@ trackHistoriesRouter.get('/', auth, async (req, res, next) => {
                     },
                 },
             })
-            .sort({ datetime: -1 });
+            .sort({datetime: -1});
 
         res.send(trackHistories);
     } catch (error) {

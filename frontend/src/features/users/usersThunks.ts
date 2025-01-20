@@ -27,7 +27,7 @@ export const login = createAsyncThunk<User, LoginMutation, { rejectValue: Global
       return user;
     } catch (error) {
       if (isAxiosError(error) && error.response && error.response.status === 400) {
-        return rejectWithValue(error.response.data as GlobalError);
+        return rejectWithValue(error.response.data);
       }
       throw error;
     }

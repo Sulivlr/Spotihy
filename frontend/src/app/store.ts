@@ -8,7 +8,7 @@ import {persistReducer, FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persi
 import {trackHistoryReducer} from '../features/TrackHistory/trackHistorySlice';
 
 const usersPersistConfig = {
-  key: 'spotihy:users',
+  key: 'store:users',
   storage,
   whitelist: ['user'],
 };
@@ -28,7 +28,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       },
-    })
+    });
   }
 });
 
