@@ -3,12 +3,12 @@ import { fetchTrackHistory } from './trackHistoryThunk';
 import { TrackHistory } from '../../types';
 
 export interface TrackHistoryState {
-  items: TrackHistory[];
+  items: TrackHistory[] | null;
   trackHistoryFetching: boolean;
 }
 
 const initialState: TrackHistoryState = {
-  items: [],
+  items: null,
   trackHistoryFetching: false,
 };
 

@@ -1,16 +1,12 @@
-import {Button, Card, CardContent, CircularProgress, Grid, Typography} from '@mui/material';
+import {Card, CardContent, CircularProgress, Grid, Typography} from '@mui/material';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectTracks, selectTracksFetching} from './tracksSlice';
 import React, {useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {fetchTracks, playTrack} from './tracksThunks';
-import {Track} from '../../types';
+import {fetchTracks} from './tracksThunks';
 
-interface Props {
-  track: Track;
-}
 
-const TrackList: React.FC<Props> = ({track}) => {
+const TrackList: React.FC = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector(selectTracks);
   const tracksFetching = useAppSelector(selectTracksFetching);
@@ -26,10 +22,6 @@ const TrackList: React.FC<Props> = ({track}) => {
   const navigateToTrack = (trackId: string) => {
     navigate(`/tracks/${trackId}`);
   };
-
-  const addPlayTrack = () => {
-    dispatch(playTrack(track));
-  }
 
 
   if (tracksFetching) {
@@ -68,7 +60,7 @@ const TrackList: React.FC<Props> = ({track}) => {
                   backgroundColor: '#f5f5f5',
                   borderRadius: '50%'
                 }}>
-                  <Button onClick={addPlayTrack} sx={{fontWeight: 'bold'}}>▶</Button>
+                  <Typography variant="h6" sx={{fontWeight: 'bold'}}>▶</Typography>
                 </Card>
               </Grid>
             </CardContent>
