@@ -14,6 +14,6 @@ export const playTrack = createAsyncThunk<void, Track, { state: RootState }>(
   'tracks/play',
   async (track, {getState}) => {
     const token = getState().users.user?.token;
-    const data = {...track}
+    const data = {track}
     await axiosApi.post('track_history', data, {headers: {Authorization: token}});
   });

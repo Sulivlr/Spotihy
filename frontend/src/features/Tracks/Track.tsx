@@ -17,10 +17,6 @@ const TrackList: React.FC<Props> = ({track}) => {
   const {id} = useParams();
   const navigate = useNavigate();
 
-  const addPlayTrack = () => {
-    dispatch(playTrack(track))
-  }
-
   useEffect(() => {
     if (id) {
       dispatch(fetchTracks(id));
@@ -30,6 +26,10 @@ const TrackList: React.FC<Props> = ({track}) => {
   const navigateToTrack = (trackId: string) => {
     navigate(`/tracks/${trackId}`);
   };
+
+  const addPlayTrack = () => {
+    dispatch(playTrack(track));
+  }
 
 
   if (tracksFetching) {
