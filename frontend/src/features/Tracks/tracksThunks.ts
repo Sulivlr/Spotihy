@@ -1,7 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi';
 import {Track} from '../../types';
-import {RootState} from '../../app/store';
 
 export const fetchTracks = createAsyncThunk<Track[], string>(
   'tracks/fetchTracks',
@@ -10,10 +9,9 @@ export const fetchTracks = createAsyncThunk<Track[], string>(
     return tracks;
   });
 
-export const playTrack = createAsyncThunk<void, Track, { state: RootState }>(
-  'tracks/play',
-  async (track, {getState}) => {
-    const token = getState().users.user?.token;
-    const data = {track}
-    await axiosApi.post('track_history', data, {headers: {Authorization: token}});
+export const playTrack = createAsyncThunk<void, {track: string, token: string}>(
+  'tracks/playTrack',
+  async ({track, token}) => {
+    const {data: trackHistory} = await axiosApi.post('/track_history', {track}, {headers: {'Authorization': token}});
+    return trackHistory;
   });

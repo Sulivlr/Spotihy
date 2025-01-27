@@ -42,9 +42,8 @@ const TrackHistorySchema = new Schema({
         },
     },
     datetime: {
-        type: Date,
-        required: true,
-        default: Date.now,
+        type: String,
+        default: () => new Date().toISOString(),
     },
 });
 

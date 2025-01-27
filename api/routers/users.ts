@@ -45,12 +45,10 @@ usersRouter.post('/sessions', async (req, res, next) => {
 usersRouter.delete('/sessions', async (req, res, next) => {
     try {
         const headerValue = req.get('Authorization');
-
         if (!headerValue) {
             res.status(204).send();
             return;
         }
-
         const [token] = headerValue.split(' ');
 
         if (!token) {

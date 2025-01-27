@@ -1,21 +1,22 @@
-import {GlobalError, User, ValidationError} from '../../types';
-import {createSlice} from '@reduxjs/toolkit';
-import {login, register} from './usersThunks';
+import { createSlice } from '@reduxjs/toolkit';
+import { GlobalError, User, ValidationError } from '../../types';
+import { login, register } from './usersThunks';
 
-export interface UsersState {
+
+interface UsersState {
   user: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
-  loginLoading: boolean;
   loginError: GlobalError | null;
+  loginLoading: boolean;
 }
 
 const initialState: UsersState = {
   user: null,
-  registerLoading: false,
   registerError: null,
-  loginLoading: false,
+  registerLoading: false,
   loginError: null,
+  loginLoading: false
 };
 
 export const usersSlice = createSlice({
@@ -27,25 +28,31 @@ export const usersSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(register.pending, (state) => {
-      state.registerLoading = true;
-      state.registerError = null;
-    }).addCase(register.fulfilled, (state, {payload: user}) => {
-      state.registerLoading = false;
-      state.user = user;
-    }).addCase(register.rejected, (state, {payload: error}) => {
-      state.registerLoading = false;
-      state.registerError = error || null;
-    }).addCase(login.pending, (state) => {
-      state.loginLoading = true;
-      state.loginError = null;
-    }).addCase(login.fulfilled, (state, {payload: user}) => {
-      state.loginLoading = false;
-      state.user = user;
-    }).addCase(login.rejected, (state, {payload: error}) => {
-      state.loginLoading = false;
-      state.loginError = error || null;
-    });
+    builder
+      .addCase(register.pending, (state) => {
+        state.registerLoading = true;
+        state.registerError = null;
+      })
+      .addCase(register.fulfilled, (state, {payload: userResponse}) => {
+        state.registerLoading = false;
+        state.user = userResponse.user;
+      })
+      .addCase(register.rejected, (state, {payload: error}) => {
+        state.registerLoading = false;
+        state.registerError = error || null;
+      })
+      .addCase(login.pending, (state) => {
+        state.loginLoading = true;
+        state.loginError = null;
+      })
+      .addCase(login.fulfilled, (state, {payload: user}) => {
+        state.user = user;
+        state.loginLoading = false;
+      })
+      .addCase(login.rejected, (state, {payload: error}) => {
+        state.loginLoading = false;
+        state.loginError = error || null;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,

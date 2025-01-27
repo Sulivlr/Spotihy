@@ -4,6 +4,7 @@ import {AccountCircle} from '@mui/icons-material';
 import {useAppDispatch} from '../../app/hooks';
 import {logout} from '../../features/users/usersThunks';
 import {NavLink, useNavigate} from 'react-router-dom';
+import {unsetUser} from '../../features/users/usersSlice';
 
 
 const UserMenu = () => {
@@ -17,6 +18,7 @@ const UserMenu = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(unsetUser());
     navigate('/');
   };
 

@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import {RegisterMutation} from '../../types';
-import {Avatar, Box, Button, Grid, TextField, Typography, Link} from '@mui/material';
+import {Avatar, Box, Button, Grid, TextField, Typography, Link, CircularProgress} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectRegisterError} from './usersSlice';
+import {selectRegisterError, selectRegisterLoading} from './usersSlice';
 import {register} from './usersThunks';
 
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectRegisterError);
+  const isLoading = useAppSelector(selectRegisterLoading);
   const navigate = useNavigate();
 
 
@@ -76,7 +77,14 @@ const Register = () => {
             />
           </Grid>
         </Grid>
-        <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>Sign Up</Button>
+        <Button
+          disabled={isLoading}
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{mt: 3, mb: 2}}>
+          {isLoading ? <CircularProgress color="secondary" /> : null}
+          Sign Up</Button>
         <Link component={RouterLink} to="/login" variant="body2" >
           Already have an account? Sign in
         </Link>

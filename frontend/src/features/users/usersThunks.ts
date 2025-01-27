@@ -1,42 +1,50 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {GlobalError, LoginMutation, RegisterMutation, User, ValidationError} from '../../types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { isAxiosError } from 'axios';
+import { GlobalError, User, LoginMutation, RegisterMutation, RegisterResponse, ValidationError } from '../../types';
 import axiosApi from '../../axiosApi';
-import {isAxiosError} from 'axios';
-import {RootState} from '../../app/store';
-import {unsetUser} from './usersSlice';
+import { RootState } from '../../app/store';
 
-export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
+
+export const register = createAsyncThunk<
+  RegisterResponse,
+  RegisterMutation,
+  {rejectValue: ValidationError}
+>(
   'users/register',
-  async (registerMutation, {rejectWithValue}) => {
-    try {
-      const {data: user} = await axiosApi.post<User>('/users/register', registerMutation);
-      return user;
-    } catch (error) {
-      if (isAxiosError(error) && error.response && error.response.status === 400) {
-        return rejectWithValue(error.response.data);
-      }
-      throw error;
-    }
-  });
+  async (registerMutation: RegisterMutation, {rejectWithValue})=> {
+    try{
+      const response =  await axiosApi.post<RegisterResponse>('users/register', registerMutation);
 
-export const login = createAsyncThunk<User, LoginMutation, { rejectValue: GlobalError }>(
+      return response.data;
+    } catch (e) {
+      if(isAxiosError(e) && e.response && e.response.status === 400 ) {
+        return rejectWithValue(e.response.data);
+      }
+      throw e;
+    }
+  }
+);
+
+export const login = createAsyncThunk<User, LoginMutation, {rejectValue: GlobalError}>(
   'users/login',
-  async (loginMutation, {rejectWithValue}) => {
+  async (loginMutation: LoginMutation, {rejectWithValue}) => {
     try {
-      const {data: user} = await axiosApi.post<User>('/users/sessions', loginMutation);
-      return user;
-    } catch (error) {
-      if (isAxiosError(error) && error.response && error.response.status === 400) {
-        return rejectWithValue(error.response.data);
-      }
-      throw error;
-    }
-  });
+      const response = await axiosApi.post<RegisterResponse>('users/sessions', loginMutation);
 
-export const logout = createAsyncThunk<void, void, { state: RootState }>(
+      return response.data.user;
+    } catch (e) {
+      if(isAxiosError(e) && e.response && e.response.status === 400 ) {
+        return rejectWithValue(e.response.data as GlobalError);
+      }
+      throw e;
+    }
+  }
+);
+
+export const logout = createAsyncThunk<void, void, {state: RootState}>(
   'users/logout',
-  async (_arg, {getState, dispatch}) => {
+  async (_,{getState}) => {
     const token = getState().users.user?.token;
-    await axiosApi.delete('/users/sessions', {headers: {Authorization: token}});
-    dispatch(unsetUser());
-  });
+    await axiosApi.delete('/users/sessions', {headers: {'Authorization': token}});
+  }
+);

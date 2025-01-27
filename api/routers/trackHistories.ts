@@ -2,20 +2,30 @@ import TrackHistory from "../models/TrackHistory";
 import mongoose from "mongoose";
 import auth, {RequestWithUser} from "../middleware/auth";
 import express from "express";
+import Track from "../models/Track";
+import Album from "../models/Album";
+import Artist from "../models/Artist";
 
 const trackHistoriesRouter = express.Router();
 
 trackHistoriesRouter.post('/', auth, async (req, res, next) => {
     let expressReq = req as RequestWithUser;
     const user = expressReq.user;
-    try {
-        const trackHistoryData = {
-            user: user._id,
-            track: req.body.track,
-            datetime: new Date(),
-        };
+    const track = await Track.findById(req.body.track).populate('album');
+    if (!track) {
+        res.status(404).send({error: 'No such track found'});
+        return;
+    }
+    const album = await Album.findById(track.album._id).populate('artist');
+    const artist = await Artist.findById(album?.artist._id);
 
-        const trackHistory = new TrackHistory(trackHistoryData);
+    const newTrackHistory = {
+        user,
+        artist,
+        track: expressReq.body.track,
+    }
+    try {
+        const trackHistory = new TrackHistory(newTrackHistory);
         await trackHistory.save();
         res.send(trackHistory);
     } catch (error) {
@@ -27,23 +37,12 @@ trackHistoriesRouter.post('/', auth, async (req, res, next) => {
 });
 
 trackHistoriesRouter.get('/', auth, async (req, res, next) => {
+    let expressReq = req as RequestWithUser;
+    const user = expressReq.user;
     try {
-        const expressReq = req as RequestWithUser;
-        const user = expressReq.user;
 
         const trackHistories = await TrackHistory.find({user: user._id})
-            .populate({
-                path: 'track',
-                populate: {
-                    path: 'album',
-                    model: 'Album',
-                    populate: {
-                        path: 'artist',
-                        model: 'Artist',
-                    },
-                },
-            })
-            .sort({datetime: -1});
+            .populate('track').populate('artist').sort({datetime: -1});
 
         res.send(trackHistories);
     } catch (error) {
