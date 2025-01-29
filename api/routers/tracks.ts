@@ -37,17 +37,22 @@ tracksRouter.get('/:id', async (req, res, next) => {
 });
 
 
-tracksRouter.post('/', auth,  async (req, res, next) => {
+tracksRouter.post('/', auth, async (req, res, next) => {
     try {
         const trackData: TrackMutation = {
             album: req.body.album,
             title: req.body.title,
             duration: req.body.duration,
         }
-        const track = new Track(trackData);
+
+        const trackNumber = await Track.find({album: req.body.album});
+
+        const track = new Track({
+            ...trackData,
+            track_number: trackNumber.length,
+        });
         await track.save();
         res.send(track);
-
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
             res.status(400).send(error);
@@ -74,7 +79,7 @@ tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
 
 tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
     try {
-        const track = await Track.findOne({_id :req.params.id});
+        const track = await Track.findOne({_id: req.params.id});
 
         if (!track) {
             res.status(404).send({error: 'Track not found'});
