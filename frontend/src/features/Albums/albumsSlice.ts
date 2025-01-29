@@ -1,15 +1,17 @@
 import {Album} from '../../types';
 import {createSlice} from '@reduxjs/toolkit';
-import {fetchAlbums} from './albumsThunks';
+import {createAlbum, fetchAlbums} from './albumsThunks';
 
 export interface AlbumsState {
   items: Album[];
   itemsFetching: boolean;
+  isCreating: boolean;
 }
 
 const initialState: AlbumsState = {
   items: [],
   itemsFetching: false,
+  isCreating: false,
 };
 
 export const albumsSlice = createSlice({
@@ -24,11 +26,18 @@ export const albumsSlice = createSlice({
       state.itemsFetching = false;
     }).addCase(fetchAlbums.rejected, (state)=> {
       state.itemsFetching = false;
+    }).addCase(createAlbum.pending, (state) => {
+      state.isCreating = true;
+    }).addCase(createAlbum.fulfilled, (state) => {
+      state.isCreating = false;
+    }).addCase(createAlbum.rejected, (state) => {
+      state.isCreating = false;
     });
   },
   selectors: {
     selectAlbums: (state) => state.items,
     selectAlbumsFetching: (state) => state.itemsFetching,
+    selectAlbumIsCreating: (state) => state.isCreating,
   },
 });
 
@@ -37,5 +46,6 @@ export const albumsReducer = albumsSlice.reducer;
 export const {
   selectAlbums,
   selectAlbumsFetching,
+  selectAlbumIsCreating,
 } = albumsSlice.selectors;
 

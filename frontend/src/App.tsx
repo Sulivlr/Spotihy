@@ -8,6 +8,7 @@ import Register from './features/users/Register';
 import Login from './features/users/Login';
 import TrackHistory from './features/TrackHistory/TrackHistory';
 import AlbumForm from './features/Albums/components/AlbumForm';
+import ArtistForm from './features/Artists/components/ArtistForm';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/login" element={<Login/>}/>
             <Route path="/trackhistory" element={<TrackHistory />} />
             <Route path="/new-album" element={<AlbumForm/>} />
+            <Route path="/new-artist" element={<ArtistForm/>} />
             <Route path="*" element={<Typography variant="h1">Page Doesn't Exist</Typography>}/>
           </Routes>
         </Container>

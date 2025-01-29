@@ -75,7 +75,7 @@ export interface AlbumMutation {
 }
 
 export interface ArtistMutation {
-  title: string;
+  name: string;
   image: File | null;
 }
 
