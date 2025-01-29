@@ -20,7 +20,7 @@ const run = async () => {
         console.log("Skipping drop...");
     }
 
-    const [BEAST, BTS] = await Artist.create(
+    const [BEAST, BTS, Jungkook] = await Artist.create(
         {
             name: 'BEAST',
             image: 'fixtures/BEAST.jpg',
@@ -31,9 +31,14 @@ const run = async () => {
             image: 'fixtures/BTS.JPG',
             isPublished: true,
         },
+        {
+            name: 'Jungkook',
+            image: 'fixtures/Jungkook.jpg',
+            isPublished: false,
+        },
     );
 
-    const [WINGS, Youth, TIME, FictionAndFact,] = await Album.create(
+    const [WINGS, Youth, TIME, FictionAndFact, Golden] = await Album.create(
         {
             title: 'WINGS',
             artist: BTS,
@@ -61,6 +66,12 @@ const run = async () => {
             created_at: 2011,
             image: 'fixtures/FictionAndFact.jpg',
             isPublished: true,
+        },
+        {
+            title: 'Golden',
+            artist: Jungkook,
+            created_at: 2023,
+            image: 'fixtures/Golden.jpeg',
         },
     );
     await Track.create(
@@ -204,6 +215,27 @@ const run = async () => {
             duration: '2:24',
             isPublished: true,
         },
+        {
+            title: '3D',
+            track_number: 1,
+            album: Golden,
+            duration: '3:22',
+            isPublished: false,
+        },
+        {
+            title: 'SEVEN',
+            track_number: 2,
+            album: Golden,
+            duration: '3:05',
+            isPublished: false,
+        },
+        {
+            title: 'Standing Next To You',
+            track_number: 3,
+            album: Golden,
+            duration: '3:27',
+            isPublished: false,
+        }
     );
 
     await User.create(
