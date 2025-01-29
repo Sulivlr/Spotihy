@@ -56,7 +56,7 @@ const AlbumForm = () => {
   const submitFormHandler = async (event: FormEvent) => {
     event.preventDefault();
     await dispatch(createAlbum(albumMutation)).unwrap();
-    navigate(`/`);
+    navigate(`/albums/${albumMutation.artist}`);
   };
 
   return (

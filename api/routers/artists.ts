@@ -18,7 +18,7 @@ artistsRouter.get('/', async (req, res, next) => {
     }
 });
 
-artistsRouter.post('/', auth,  imagesUpload.single('image'), async (req, res, next) => {
+artistsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
     try {
         const artistData: ArtistMutation = {
             name: req.body.name,

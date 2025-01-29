@@ -60,7 +60,7 @@ const TrackForm = () => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         dispatch(createTrack(trackMutation)).unwrap();
-        navigate('/');
+        navigate(`/tracks/${trackMutation.album}`);
     };
 
     return (

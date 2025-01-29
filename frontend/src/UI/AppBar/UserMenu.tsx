@@ -28,20 +28,20 @@ const UserMenu = () => {
   return (
     <Grid2>
       <Button onClick={handleClick} color="inherit">
-        <AccountCircle />
+        <AccountCircle/>
       </Button>
       <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose} keepMounted>
-        <MenuItem color="inherit" component={NavLink} to="/trackhistory" onClick={handleClose}>
-          Track History
+        <MenuItem color="inherit" component={NavLink} to="/new-artist" onClick={handleClose}>
+          New Artist
         </MenuItem>
         <MenuItem color="inherit" component={NavLink} to="/new-album" onClick={handleClose}>
           New Album
         </MenuItem>
-        <MenuItem color="inherit" component={NavLink} to="/new-artist" onClick={handleClose}>
-          New Artist
-        </MenuItem>
         <MenuItem color="inherit" component={NavLink} to="/new-track" onClick={handleClose}>
           New Track
+        </MenuItem>
+        <MenuItem color="inherit" component={NavLink} to="/trackhistory" onClick={handleClose}>
+          Track History
         </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>

@@ -33,7 +33,7 @@ const ArtistForm = () => {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     dispatch(createArtist(artistMutation));
-    navigate('/');
+    navigate(`/`);
   };
 
   return (
