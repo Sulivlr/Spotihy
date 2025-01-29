@@ -1,18 +1,19 @@
 import {Track} from '../../types';
 import {createSlice} from '@reduxjs/toolkit';
-import {fetchTracks, playTrack} from './tracksThunks';
+import {createTrack, fetchTracks, playTrack} from './tracksThunks';
 
 export interface TracksState {
   items: Track[];
   itemsFetching: boolean;
   addTrackPlay: boolean;
-
+  isCreating: boolean;
 }
 
 const initialState: TracksState = {
   items: [],
   itemsFetching: false,
   addTrackPlay: false,
+  isCreating: false,
 };
 
 export const tracksSlice = createSlice({
@@ -33,12 +34,19 @@ export const tracksSlice = createSlice({
       state.addTrackPlay = false;
     }).addCase(playTrack.rejected, (state) => {
       state.addTrackPlay = false;
-    });
+    }).addCase(createTrack.pending, (state) => {
+      state.isCreating = true;
+    }).addCase(createTrack.fulfilled, (state) => {
+      state.isCreating = false;
+    }).addCase(createTrack.rejected, (state) => {
+      state.isCreating = false;
+    })
   },
   selectors: {
     selectTracks: (state) => state.items,
     selectTracksFetching: (state) => state.itemsFetching,
     selectAddPlayHistory: (state) => state.addTrackPlay,
+    selectTrackIsCreating: (state) => state.isCreating,
   },
 });
 
@@ -48,5 +56,6 @@ export const {
   selectTracks,
   selectTracksFetching,
   selectAddPlayHistory,
+  selectTrackIsCreating,
 } = tracksSlice.selectors;
 

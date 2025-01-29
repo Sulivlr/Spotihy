@@ -80,7 +80,7 @@ export interface ArtistMutation {
 }
 
 export interface TrackMutation {
-  title: string;
   album: string;
+  title: string;
   duration: string;
 }

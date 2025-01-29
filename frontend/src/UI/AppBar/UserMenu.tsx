@@ -40,6 +40,9 @@ const UserMenu = () => {
         <MenuItem color="inherit" component={NavLink} to="/new-artist" onClick={handleClose}>
           New Artist
         </MenuItem>
+        <MenuItem color="inherit" component={NavLink} to="/new-track" onClick={handleClose}>
+          New Track
+        </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Grid2>
