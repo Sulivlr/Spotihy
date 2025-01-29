@@ -16,3 +16,5 @@ const permit = (...roles: string[]) => {
         next()
     }
 }
+
+export default permit;

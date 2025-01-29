@@ -2,6 +2,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
+  role: 'admin'
 }
 
 export interface RegisterMutation {
@@ -64,4 +65,22 @@ export interface Track {
   title: string;
   duration: string;
   track_number: number;
+}
+
+export interface AlbumMutation {
+  title: string;
+  artist: string;
+  image: File | null;
+  created_at: string;
+}
+
+export interface ArtistMutation {
+  title: string;
+  image: File | null;
+}
+
+export interface TrackMutation {
+  title: string;
+  album: string;
+  duration: string;
 }

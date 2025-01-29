@@ -2,7 +2,9 @@ import express from 'express';
 import Track from "../models/Track";
 import {TrackMutation} from "../types";
 import mongoose from "mongoose";
+import permit from "../middleware/permit";
 import auth from "../middleware/auth";
+
 
 const tracksRouter = express.Router();
 
@@ -35,7 +37,7 @@ tracksRouter.get('/:id', async (req, res, next) => {
 });
 
 
-tracksRouter.post('/', async (req, res, next) => {
+tracksRouter.post('/', auth,  async (req, res, next) => {
     try {
         const trackData: TrackMutation = {
             album: req.body.album,
@@ -53,5 +55,37 @@ tracksRouter.post('/', async (req, res, next) => {
         next(error);
     }
 });
+
+tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+    try {
+        const track = await Track.findById({_id: req.params.id});
+
+        if (track === null) {
+            res.status(404).send({error: 'Track not found'});
+            return;
+        }
+        await Track.deleteOne({_id: req.params.id});
+
+        res.send({message: `Track ${track.title} is deleted`});
+    } catch (error) {
+        next(error);
+    }
+});
+
+tracksRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req, res, next) => {
+    try {
+        const track = await Track.findOne({_id :req.params.id});
+
+        if (!track) {
+            res.status(404).send({error: 'Track not found'});
+            return;
+        }
+        await Track.updateOne({_id: req.params.id}, {$set: {isPublished: !track.isPublished}});
+        res.send({message: `Track ${track.title} is updated`});
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 export default tracksRouter;
