@@ -72,15 +72,18 @@ export interface AlbumMutation {
   artist: string;
   image: File | null;
   created_at: string;
+  user: string;
 }
 
 export interface ArtistMutation {
   name: string;
   image: File | null;
+  user: string;
 }
 
 export interface TrackMutation {
   album: string;
   title: string;
   duration: string;
+  user: string;
 }

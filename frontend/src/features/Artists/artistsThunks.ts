@@ -23,3 +23,10 @@ export const createArtist = createAsyncThunk<void, ArtistMutation>(
     await axiosApi.post('/artists', formData);
   }
 )
+
+export const deleteArtist = createAsyncThunk<void, string>(
+  'Artist/deleteArtist',
+  async (id) => {
+    await axiosApi.delete(`/artists/${id}`);
+  }
+)

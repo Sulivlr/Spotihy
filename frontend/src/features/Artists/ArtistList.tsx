@@ -1,19 +1,23 @@
-import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography } from '@mui/material';
+import {Card, CardContent, CardMedia, CircularProgress, Grid, IconButton, Typography} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectArtists, selectArtistsFetching } from './artistsSlice';
+import {selectArtistIsRemoving, selectArtists, selectArtistsFetching} from './artistsSlice';
 import { useEffect } from 'react';
-import { fetchArtists } from './artistsThunks';
+import {deleteArtist, fetchArtists} from './artistsThunks';
 import { Artist } from '../../types';
 import { API_URL } from '../../config';
 import notFoundImage from '../../assets/images/imgNotFound.jpg';
 import {useNavigate} from 'react-router-dom';
+import {selectUser} from '../users/usersSlice';
+import {Delete} from '@mui/icons-material';
 
 
 const ArtistList = () => {
   const artists = useAppSelector(selectArtists);
   const artistsFetching = useAppSelector(selectArtistsFetching);
+  const isRemoving = useAppSelector(selectArtistIsRemoving);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchArtists());
@@ -21,7 +25,15 @@ const ArtistList = () => {
 
   const navigateToAlbum = (id: string) => {
     navigate(`/albums/${id}`);
-  }
+  };
+
+  const handleDeleteArtist = async (artistId: string) => {
+    if (user) {
+      await dispatch(deleteArtist(artistId));
+      await dispatch(fetchArtists());
+      navigate('/');
+    }
+  };
 
   return (
     <Grid container spacing={3} sx={{ padding: 2 }}>
@@ -65,6 +77,20 @@ const ArtistList = () => {
                   {artist.name}
                 </Typography>
               </CardContent>
+              {user && (
+                <IconButton
+                  onClick={() => handleDeleteArtist(artist._id)}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    background: 'rgba(255, 255, 255, 0.8)',
+                  }}
+                  disabled={isRemoving}
+                >
+                  {isRemoving ? <CircularProgress size={24} /> : <Delete />}
+                </IconButton>
+              )}
             </Card>
           </Grid>
         );

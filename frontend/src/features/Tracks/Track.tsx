@@ -1,15 +1,17 @@
-import { Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
+import {Card, CardContent, CircularProgress, Grid, IconButton, Typography} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectTracks, selectTracksFetching } from './tracksSlice';
+import { selectTrackIsRemoving, selectTracks, selectTracksFetching} from './tracksSlice';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchTracks, playTrack } from './tracksThunks';
+import {deleteTrack, fetchTracks, playTrack} from './tracksThunks';
 import { selectUser } from '../users/usersSlice';
+import {Delete} from '@mui/icons-material';
 
 const TrackList = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector(selectTracks);
   const tracksFetching = useAppSelector(selectTracksFetching);
+  const isRemoving = useAppSelector(selectTrackIsRemoving);
   const { id } = useParams();
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
@@ -27,6 +29,14 @@ const TrackList = () => {
   const addPlayTrack = (trackId: string) => {
     if (user) {
       dispatch(playTrack({ track: trackId, token: user.token }));
+    }
+  };
+
+  const handleDeleteTrack = async (trackId: string) => {
+    if (user) {
+      await dispatch(deleteTrack(trackId));
+      await dispatch(fetchTracks(id!));
+      navigate(`/tracks/${id}`);
     }
   };
 
@@ -80,6 +90,20 @@ const TrackList = () => {
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>▶</Typography>
                 </Card>
               </Grid>
+              {user && (
+                <IconButton
+                  onClick={() => handleDeleteTrack(track._id)}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    background: 'rgba(255, 255, 255, 0.8)',
+                  }}
+                  disabled={isRemoving}
+                >
+                  {isRemoving ? <CircularProgress size={24} /> : <Delete />}
+                </IconButton>
+              )}
             </CardContent>
           </Card>
         </Grid>
