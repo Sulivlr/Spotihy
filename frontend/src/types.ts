@@ -2,7 +2,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
-  role: 'admin'
+  role: 'admin' | 'user';
 }
 
 export interface RegisterMutation {

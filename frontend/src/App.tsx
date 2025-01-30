@@ -10,8 +10,12 @@ import TrackHistory from './features/TrackHistory/TrackHistory';
 import AlbumForm from './features/Albums/components/AlbumForm';
 import ArtistForm from './features/Artists/components/ArtistForm';
 import TrackForm from './features/Tracks/components/TrackForm';
+import ProtectedRoute from './UI/ProtectedRoute/ProtectedRoute';
+import {selectUser} from './features/users/usersSlice';
+import {useAppSelector} from './app/hooks';
 
 const App = () => {
+  const user = useAppSelector(selectUser);
   return (
     <>
       <>
@@ -25,10 +29,13 @@ const App = () => {
             <Route path="/tracks/:id" element={<Track/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/trackhistory" element={<TrackHistory />} />
-            <Route path="/new-album" element={<AlbumForm/>} />
-            <Route path="/new-artist" element={<ArtistForm/>} />
-            <Route path="/new-track" element={<TrackForm/> } />
+            <Route path="/trackhistory" element={<TrackHistory/>}/>
+            <Route path="/new-album" element={<ProtectedRoute
+              isAllowed={user && (user.role === 'admin' || user.role === 'user')}><AlbumForm/></ProtectedRoute>}/>
+            <Route path="/new-artist" element={<ProtectedRoute
+              isAllowed={user && (user.role === 'admin' || user.role === 'user')}><ArtistForm/></ProtectedRoute>}/>
+            <Route path="/new-track" element={<ProtectedRoute
+              isAllowed={user && (user.role === 'admin' || user.role === 'user')}><TrackForm/></ProtectedRoute>}/>
             <Route path="*" element={<Typography variant="h1">Page Doesn't Exist</Typography>}/>
           </Routes>
         </Container>
