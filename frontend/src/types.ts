@@ -3,6 +3,7 @@ export interface User {
   username: string;
   token: string;
   role: 'admin' | 'user';
+  displayName?: string;
 }
 
 export interface RegisterMutation {

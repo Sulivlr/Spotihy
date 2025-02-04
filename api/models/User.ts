@@ -31,6 +31,8 @@ const UserSchema = new Schema<HydratedDocument<UserFields>, UserModel, UserMetho
         default: 'user',
         enum: ['user', 'admin'],
     },
+  displayName: String,
+  googleID: String,
     token: {
         type: String,
         required: true,

@@ -5,7 +5,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectLoginError} from './usersSlice';
-import {login} from './usersThunks';
+import {googleLogin, login} from './usersThunks';
+import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 
 
 const Login = () => {
@@ -28,6 +29,13 @@ const Login = () => {
     navigate('/');
   };
 
+  const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      await dispatch(googleLogin(credentialResponse.credential)).unwrap();
+      navigate('/');
+    }
+  }
+
   return (
     <Box sx={{
       mt: 1,
@@ -44,6 +52,12 @@ const Login = () => {
           {error.error}
         </Alert>
       )}
+      <Box sx={{pt: 2}}>
+        <GoogleLogin onSuccess={googleLoginHandler} onError={() => {
+          console.log('Login Failed')
+        }}
+        />
+      </Box>
       <Box component="form" onSubmit={submitFormHandler} sx={{mt: 2}}>
         <Grid direction="column" container spacing={2}>
           <Grid item>
@@ -69,7 +83,7 @@ const Login = () => {
           </Grid>
         </Grid>
         <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>Login</Button>
-        <Link component={RouterLink} to="/register" variant="body2" >
+        <Link component={RouterLink} to="/register" variant="body2">
           Or Sign Up
         </Link>
       </Box>
