@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {LoginMutation} from '../../types';
-import {Alert, Avatar, Box, Button, Grid, Link, TextField, Typography} from '@mui/material';
+import {Alert, Avatar, Box, Button, Link, TextField, Typography} from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectLoginError} from './usersSlice';
 import {googleLogin, login} from './usersThunks';
-import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
-
+import {GoogleLogin} from '@react-oauth/google';
+import Grid from '@mui/material/Grid2';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -29,12 +29,17 @@ const Login = () => {
     navigate('/');
   };
 
-  const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
-    if (credentialResponse.credential) {
-      await dispatch(googleLogin(credentialResponse.credential)).unwrap();
-      navigate('/');
-    }
-  }
+  // const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
+  //   if (credentialResponse.credential) {
+  //     await dispatch(googleLogin(credentialResponse.credential)).unwrap();
+  //     navigate('/');
+  //   }
+  // }
+
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
 
   return (
     <Box sx={{
@@ -53,14 +58,15 @@ const Login = () => {
         </Alert>
       )}
       <Box sx={{pt: 2}}>
-        <GoogleLogin onSuccess={googleLoginHandler} onError={() => {
-          console.log('Login Failed')
-        }}
-        />
+        <GoogleLogin onSuccess={((credentialResponse) => {
+          if (credentialResponse.credential) {
+            void googleLoginHandler(credentialResponse.credential);
+          }
+        })} onError={() => alert('Login failed!')}/>
       </Box>
       <Box component="form" onSubmit={submitFormHandler} sx={{mt: 2}}>
         <Grid direction="column" container spacing={2}>
-          <Grid item>
+          <Grid size={12}>
             <TextField
               required
               label="Username"
@@ -70,7 +76,7 @@ const Login = () => {
               onChange={inputChangeHandler}
             />
           </Grid>
-          <Grid item>
+          <Grid size={12}>
             <TextField
               required
               type="password"
@@ -88,7 +94,7 @@ const Login = () => {
         </Link>
       </Box>
     </Box>
-  )
+  );
 };
 
 export default Login;

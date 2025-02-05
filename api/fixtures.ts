@@ -28,12 +28,12 @@ const run = async () => {
     },
     {
       name: 'BTS',
-      image: 'fixtures/BTS.JPG',
+      image: 'fixtures/BTS.jpg',
       isPublished: true,
     },
     {
       name: 'Jungkook',
-      image: 'fixtures/Jungkook.jpg',
+      image: 'fixtures/jungkook.jpg',
       isPublished: false,
     },
   );

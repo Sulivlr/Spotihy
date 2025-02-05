@@ -56,10 +56,12 @@ export const usersSlice = createSlice({
       .addCase(googleLogin.pending, (state) => {
         state.loginLoading = true;
         state.loginError = null;
-      }).addCase(googleLogin.fulfilled, (state, {payload: user}) => {
+      })
+      .addCase(googleLogin.fulfilled, (state, {payload: user}) => {
       state.loginLoading = false;
       state.user = user;
-    }).addCase(googleLogin.rejected, (state, {payload: error}) => {
+      })
+      .addCase(googleLogin.rejected, (state, {payload: error}) => {
       state.loginLoading = false;
       state.loginError = error || null;
     });

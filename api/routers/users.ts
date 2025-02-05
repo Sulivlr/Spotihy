@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import {OAuth2Client} from 'google-auth-library';
 import config from '../config';
 import {imagesUpload} from '../multer';
+import auth, {RequestWithUser} from '../middleware/auth';
 
 const usersRouter = express.Router();
 const googleClient = new OAuth2Client(config.google.clientId);
@@ -73,8 +74,8 @@ usersRouter.post('/google', async (req, res, next) => {
       user = new User({
         username: email,
         password: crypto.randomUUID(),
-        googleId: id,
-        avatar: avatar ? avatar : null,
+        googleID: id,
+        avatar,
         displayName,
       });
     }
@@ -86,34 +87,50 @@ usersRouter.post('/google', async (req, res, next) => {
   }
 });
 
-usersRouter.delete('/sessions', async (req, res, next) => {
-    try {
-        const headerValue = req.get('Authorization');
-        if (!headerValue) {
-            res.status(204).send();
-            return;
-        }
-        const [token] = headerValue.split(' ');
+// usersRouter.delete('/sessions', async (req, res, next) => {
+//     try {
+//         const headerValue = req.get('Authorization');
+//         if (!headerValue) {
+//             res.status(204).send();
+//             return;
+//         }
+//         const [token] = headerValue.split(' ');
+//
+//         if (!token) {
+//             res.status(204).send();
+//             return;
+//         }
+//
+//         const user = await User.findOne({token});
+//
+//         if (!user) {
+//             res.status(204).send();
+//             return;
+//         }
+//
+//         user.generateToken()
+//         await user.save()
+//
+//     } catch (error) {
+//         next(error);
+//     }
+//
+// });
 
-        if (!token) {
-            res.status(204).send();
-            return;
-        }
+usersRouter.delete('/sessions', auth, async (req, res, next) => {
+  let reqWithAuth = req as RequestWithUser;
+  const userFromAuth = reqWithAuth.user;
 
-        const user = await User.findOne({token});
-
-        if (!user) {
-            res.status(204).send();
-            return;
-        }
-
-        user.generateToken()
-        await user.save()
-
-    } catch (error) {
-        next(error);
+  try {
+    const user = await User.findOne({_id: userFromAuth._id});
+    if (user) {
+      user.generateToken();
+      await user.save();
+      res.send({message: 'Success logout'});
     }
-
+  }catch (e) {
+    next(e);
+  }
 });
 
 export default usersRouter;

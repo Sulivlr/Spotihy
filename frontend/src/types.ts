@@ -4,8 +4,8 @@ export interface User {
   token: string;
   role: 'admin' | 'user';
   displayName: string;
-  googleId: string;
-  avatar: string | undefined;
+  googleID: string;
+  avatar: string;
 }
 
 export interface RegisterMutation {
