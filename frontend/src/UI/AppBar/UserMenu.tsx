@@ -19,8 +19,8 @@ const UserMenu = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     dispatch(unsetUser());
     navigate('/');
   };
