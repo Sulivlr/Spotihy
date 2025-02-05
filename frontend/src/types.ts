@@ -3,12 +3,16 @@ export interface User {
   username: string;
   token: string;
   role: 'admin' | 'user';
-  displayName?: string;
+  displayName: string;
+  googleId: string;
+  avatar: string | undefined;
 }
 
 export interface RegisterMutation {
   username: string;
   password: string;
+  displayName: string;
+  avatar: File | null;
 }
 
 export interface LoginMutation {
@@ -79,7 +83,6 @@ export interface AlbumMutation {
 export interface ArtistMutation {
   name: string;
   image: File | null;
-  user: string;
 }
 
 export interface TrackMutation {

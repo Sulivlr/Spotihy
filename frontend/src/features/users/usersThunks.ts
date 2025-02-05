@@ -5,16 +5,21 @@ import axiosApi from '../../axiosApi';
 import {RootState} from '../../app/store';
 
 
-export const register = createAsyncThunk<
-  RegisterResponse,
-  RegisterMutation,
+export const register = createAsyncThunk<User, RegisterMutation,
   { rejectValue: ValidationError }
 >(
   'users/register',
   async (registerMutation: RegisterMutation, {rejectWithValue}) => {
     try {
-      const response = await axiosApi.post<RegisterResponse>('users/register', registerMutation);
-
+      const formData = new FormData();
+      const keys = Object.keys(registerMutation) as (keyof typeof registerMutation)[];
+      keys.forEach((key) => {
+        const value = registerMutation[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+      const response = await axiosApi.post<User>('/users/register', formData);
       return response.data;
     } catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {

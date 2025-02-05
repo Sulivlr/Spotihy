@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {RegisterMutation} from '../../types';
-import {Avatar, Box, Button, Grid, TextField, Typography, Link, CircularProgress} from '@mui/material';
+import {Avatar, Box, Button, Grid, TextField, Typography, Link, CircularProgress, Grid2} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectRegisterError, selectRegisterLoading} from './usersSlice';
 import {register} from './usersThunks';
+import FileInput from '../../UI/FileInput/FileInput';
 
 
 const Register = () => {
@@ -18,6 +19,8 @@ const Register = () => {
   const [state, setState] = useState<RegisterMutation>({
     username: '',
     password: '',
+    displayName: '',
+    avatar: null,
   });
 
   const getFieldError = (fieldName: string) => {
@@ -27,6 +30,12 @@ const Register = () => {
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
     setState((prevState) => ({...prevState, [name]: value}));
+  };
+
+  const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = event.target;
+    const value = files && files[0] ? files[0] : null;
+    setState(prevState => ({ ...prevState, [name]: value }));
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -50,8 +59,8 @@ const Register = () => {
       </Avatar>
       <Typography component="h1" variant="h5">Sign Up</Typography>
       <Box component="form" noValidate onSubmit={submitFormHandler} sx={{mt: 2}}>
-        <Grid direction="column" container spacing={2}>
-          <Grid item>
+        <Grid2 direction="column" container spacing={2}>
+          <Grid2 size={12}>
             <TextField
               required
               label="Username"
@@ -62,7 +71,7 @@ const Register = () => {
               error={Boolean(getFieldError('username'))}
               helperText={getFieldError('username')}
             />
-          </Grid>
+          </Grid2>
           <Grid item>
             <TextField
               required
@@ -76,7 +85,27 @@ const Register = () => {
               helperText={getFieldError('password')}
             />
           </Grid>
-        </Grid>
+          <Grid item>
+            <TextField
+              required
+              id="displayName"
+              label="Display name"
+              name="displayName"
+              autoComplete="new-username"
+              value={state.displayName}
+              onChange={inputChangeHandler}
+              error={Boolean(getFieldError('displayName'))}
+              helperText={getFieldError('displayName')}
+             />
+          </Grid>
+          <Grid2 size={12}>
+            <FileInput
+              label="Avatar"
+              name="avatar"
+              onChange={fileInputChangeHandler}
+            />
+          </Grid2>
+        </Grid2>
         <Button
           disabled={isLoading}
           type="submit"

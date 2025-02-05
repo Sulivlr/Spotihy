@@ -3,15 +3,18 @@ import User from "../models/User";
 import mongoose from "mongoose";
 import {OAuth2Client} from 'google-auth-library';
 import config from '../config';
+import {imagesUpload} from '../multer';
 
 const usersRouter = express.Router();
 const googleClient = new OAuth2Client(config.google.clientId);
 
-usersRouter.post('/register', async (req, res, next) => {
+usersRouter.post('/register', imagesUpload.single('avatar'), async (req, res, next) => {
     try {
         const user = new User({
             username: req.body.username,
             password: req.body.password,
+            displayName: req.body.displayName,
+            avatar: req.file ? req.file.filename : null,
         });
         user.generateToken();
         await user.save();
@@ -60,6 +63,8 @@ usersRouter.post('/google', async (req, res, next) => {
     const email = payload.email;
     const id = payload.sub;
     const displayName = payload.name;
+    const avatar = payload.picture;
+
     if (!email) {
       res.status(400).send({error: 'Not enough user data to continue'});
     }
@@ -69,6 +74,7 @@ usersRouter.post('/google', async (req, res, next) => {
         username: email,
         password: crypto.randomUUID(),
         googleId: id,
+        avatar: avatar ? avatar : null,
         displayName,
       });
     }
