@@ -1,16 +1,17 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import axiosApi from '../../axiosApi';
-import {Album, AlbumMutation} from '../../types';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosApi from "../../axiosApi";
+import { Album, AlbumMutation } from "../../types";
 
 export const fetchAlbums = createAsyncThunk<Album[], string>(
-  'albums/fetchAlbums',
+  "albums/fetchAlbums",
   async (id: string) => {
-    const {data: album} = await axiosApi.get<Album[]>(`/albums?artist=${id}`);
+    const { data: album } = await axiosApi.get<Album[]>(`/albums?artist=${id}`);
     return album;
-  });
+  },
+);
 
 export const createAlbum = createAsyncThunk(
-  'albums/createAlbum',
+  "albums/createAlbum",
   async (albumMutation: AlbumMutation) => {
     const formData = new FormData();
     const keys = Object.keys(albumMutation) as (keyof AlbumMutation)[];
@@ -20,13 +21,13 @@ export const createAlbum = createAsyncThunk(
         formData.append(key, value);
       }
     });
-    await axiosApi.post('/albums', formData);
-  }
+    await axiosApi.post("/albums", formData);
+  },
 );
 
 export const deleteAlbum = createAsyncThunk<void, string>(
-  'albums/deleteAlbum',
+  "albums/deleteAlbum",
   async (id) => {
     await axiosApi.delete(`/albums/${id}`);
-  }
-)
+  },
+);

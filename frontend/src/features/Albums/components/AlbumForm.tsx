@@ -1,5 +1,5 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import { AlbumMutation } from '../../../types';
+import React, { FormEvent, useEffect, useState } from "react";
+import { AlbumMutation } from "../../../types";
 import {
   Button,
   Grid,
@@ -11,18 +11,18 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from '@mui/material';
-import FileInput from '../../../UI/FileInput/FileInput';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { createAlbum } from '../albumsThunks';
-import { useNavigate } from 'react-router-dom';
-import { selectArtists } from '../../Artists/artistsSlice';
-import { fetchArtists } from '../../Artists/artistsThunks';
+} from "@mui/material";
+import FileInput from "../../../UI/FileInput/FileInput";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { createAlbum } from "../albumsThunks";
+import { useNavigate } from "react-router-dom";
+import { selectArtists } from "../../Artists/artistsSlice";
+import { fetchArtists } from "../../Artists/artistsThunks";
 
 const initialState: AlbumMutation = {
-  artist: '',
-  title: '',
-  created_at: '',
+  artist: "",
+  title: "",
+  created_at: "",
   image: null,
 };
 
@@ -37,17 +37,24 @@ const AlbumForm = () => {
   }, [dispatch]);
 
   const onFieldChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
+    event:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent,
   ) => {
     const { name, value } = event.target;
     setAlbumMutation((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleArtistChange = (event: SelectChangeEvent<string>) => {
-    setAlbumMutation((prevState) => ({ ...prevState, artist: event.target.value }));
+    setAlbumMutation((prevState) => ({
+      ...prevState,
+      artist: event.target.value,
+    }));
   };
 
-  const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const fileInputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const { name, files } = event.target;
     const value = files && files[0] ? files[0] : null;
     setAlbumMutation((prevState) => ({ ...prevState, [name]: value }));
@@ -61,15 +68,19 @@ const AlbumForm = () => {
 
   return (
     <Box component="form" onSubmit={submitFormHandler} autoComplete="off">
-      <Grid container spacing={3} sx={{ mx: 'auto', width: '60%', mt: 5, mb: 5 }}>
+      <Grid
+        container
+        spacing={3}
+        sx={{ mx: "auto", width: "60%", mt: 5, mb: 5 }}
+      >
         <Grid item xs={12}>
           <Typography
             variant="h4"
             sx={{
-              fontSize: '32px',
-              color: 'rgba(41, 43, 42, 0.82)',
-              textAlign: 'center',
-              fontWeight: 'bold',
+              fontSize: "32px",
+              color: "rgba(41, 43, 42, 0.82)",
+              textAlign: "center",
+              fontWeight: "bold",
             }}
           >
             Add Album
@@ -87,7 +98,7 @@ const AlbumForm = () => {
               onChange={handleArtistChange}
               name="artist"
               label="Artist"
-              sx={{ textAlign: 'left' }}
+              sx={{ textAlign: "left" }}
             >
               <MenuItem value="">Select Artist</MenuItem>
               {artists.length === 0 ? (
@@ -132,15 +143,23 @@ const AlbumForm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <FileInput label="Billboard" name="image" onChange={fileInputChangeHandler} />
+          <FileInput
+            label="Billboard"
+            name="image"
+            onChange={fileInputChangeHandler}
+          />
         </Grid>
 
-        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+        <Grid item xs={12} sx={{ textAlign: "center" }}>
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ padding: '10px 30px', fontWeight: 'bold', textTransform: 'none' }}
+            sx={{
+              padding: "10px 30px",
+              fontWeight: "bold",
+              textTransform: "none",
+            }}
           >
             Add
           </Button>

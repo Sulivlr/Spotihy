@@ -1,7 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {GlobalError, User, ValidationError} from '../../types';
-import {googleLogin, login, register} from './usersThunks';
-
+import { createSlice } from "@reduxjs/toolkit";
+import { GlobalError, User, ValidationError } from "../../types";
+import { googleLogin, login, register } from "./usersThunks";
 
 interface UsersState {
   user: User | null;
@@ -16,16 +15,16 @@ const initialState: UsersState = {
   registerError: null,
   registerLoading: false,
   loginError: null,
-  loginLoading: false
+  loginLoading: false,
 };
 
 export const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState,
   reducers: {
     unsetUser: (state) => {
       state.user = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -33,11 +32,11 @@ export const usersSlice = createSlice({
         state.registerLoading = true;
         state.registerError = null;
       })
-      .addCase(register.fulfilled, (state, {payload: userResponse}) => {
+      .addCase(register.fulfilled, (state, { payload: userResponse }) => {
         state.registerLoading = false;
         state.user = userResponse;
       })
-      .addCase(register.rejected, (state, {payload: error}) => {
+      .addCase(register.rejected, (state, { payload: error }) => {
         state.registerLoading = false;
         state.registerError = error || null;
       })
@@ -45,11 +44,11 @@ export const usersSlice = createSlice({
         state.loginLoading = true;
         state.loginError = null;
       })
-      .addCase(login.fulfilled, (state, {payload: user}) => {
+      .addCase(login.fulfilled, (state, { payload: user }) => {
         state.user = user;
         state.loginLoading = false;
       })
-      .addCase(login.rejected, (state, {payload: error}) => {
+      .addCase(login.rejected, (state, { payload: error }) => {
         state.loginLoading = false;
         state.loginError = error || null;
       })
@@ -57,14 +56,14 @@ export const usersSlice = createSlice({
         state.loginLoading = true;
         state.loginError = null;
       })
-      .addCase(googleLogin.fulfilled, (state, {payload: user}) => {
-      state.loginLoading = false;
-      state.user = user;
+      .addCase(googleLogin.fulfilled, (state, { payload: user }) => {
+        state.loginLoading = false;
+        state.user = user;
       })
-      .addCase(googleLogin.rejected, (state, {payload: error}) => {
-      state.loginLoading = false;
-      state.loginError = error || null;
-    });
+      .addCase(googleLogin.rejected, (state, { payload: error }) => {
+        state.loginLoading = false;
+        state.loginError = error || null;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
@@ -76,7 +75,7 @@ export const usersSlice = createSlice({
 });
 
 export const usersReducer = usersSlice.reducer;
-export const {unsetUser} = usersSlice.actions;
+export const { unsetUser } = usersSlice.actions;
 export const {
   selectUser,
   selectRegisterLoading,

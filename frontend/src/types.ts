@@ -2,7 +2,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   displayName: string;
   googleID: string;
   avatar: string;
@@ -25,8 +25,8 @@ export interface ValidationError {
     [key: string]: {
       message: string;
       name: string;
-    },
-  },
+    };
+  };
   message: string;
   name: string;
   _message: string;

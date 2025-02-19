@@ -1,6 +1,6 @@
-import {Album} from '../../types';
-import {createSlice} from '@reduxjs/toolkit';
-import {createAlbum, deleteAlbum, fetchAlbums} from './albumsThunks';
+import { Album } from "../../types";
+import { createSlice } from "@reduxjs/toolkit";
+import { createAlbum, deleteAlbum, fetchAlbums } from "./albumsThunks";
 
 export interface AlbumsState {
   items: Album[];
@@ -21,26 +21,35 @@ export const albumsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAlbums.pending, (state) => {
-      state.itemsFetching = true;
-    }).addCase(fetchAlbums.fulfilled, (state, {payload: album}) => {
-      state.items = album;
-      state.itemsFetching = false;
-    }).addCase(fetchAlbums.rejected, (state)=> {
-      state.itemsFetching = false;
-    }).addCase(createAlbum.pending, (state) => {
-      state.isCreating = true;
-    }).addCase(createAlbum.fulfilled, (state) => {
-      state.isCreating = false;
-    }).addCase(createAlbum.rejected, (state) => {
-      state.isCreating = false;
-    }).addCase(deleteAlbum.pending, (state) => {
-      state.isRemoving = true;
-    }).addCase(deleteAlbum.fulfilled, (state) => {
-      state.isRemoving = false;
-    }).addCase(deleteAlbum.rejected, (state) => {
-      state.isRemoving = false;
-    });
+    builder
+      .addCase(fetchAlbums.pending, (state) => {
+        state.itemsFetching = true;
+      })
+      .addCase(fetchAlbums.fulfilled, (state, { payload: album }) => {
+        state.items = album;
+        state.itemsFetching = false;
+      })
+      .addCase(fetchAlbums.rejected, (state) => {
+        state.itemsFetching = false;
+      })
+      .addCase(createAlbum.pending, (state) => {
+        state.isCreating = true;
+      })
+      .addCase(createAlbum.fulfilled, (state) => {
+        state.isCreating = false;
+      })
+      .addCase(createAlbum.rejected, (state) => {
+        state.isCreating = false;
+      })
+      .addCase(deleteAlbum.pending, (state) => {
+        state.isRemoving = true;
+      })
+      .addCase(deleteAlbum.fulfilled, (state) => {
+        state.isRemoving = false;
+      })
+      .addCase(deleteAlbum.rejected, (state) => {
+        state.isRemoving = false;
+      });
   },
   selectors: {
     selectAlbums: (state) => state.items,
@@ -58,4 +67,3 @@ export const {
   selectAlbumIsCreating,
   selectAlbumIsRemoving,
 } = albumsSlice.selectors;
-

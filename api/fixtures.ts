@@ -4,7 +4,7 @@ import Artist from './models/Artist';
 import Album from './models/Album';
 import Track from './models/Track';
 import User from './models/User';
-import {randomUUID} from 'crypto';
+import { randomUUID } from 'crypto';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -139,7 +139,7 @@ const run = async () => {
       isPublished: true,
     },
     {
-      title: 'It\'s All Good ',
+      title: "It's All Good ",
       track_number: 5,
       album: TIME,
       duration: '3:39',
@@ -235,7 +235,7 @@ const run = async () => {
       album: Golden,
       duration: '3:27',
       isPublished: false,
-    }
+    },
   );
 
   await User.create(
@@ -245,7 +245,7 @@ const run = async () => {
       token: randomUUID(),
       role: 'admin',
       avatar: 'fixtures/yoseob.jpg',
-      displayName: 'Suli'
+      displayName: 'Suli',
     },
     {
       username: 'Sultan',
@@ -253,7 +253,7 @@ const run = async () => {
       token: randomUUID(),
       role: 'user',
       avatar: 'fixtures/yoseob2.jpeg',
-      displayName: 'Sultan Mukhtarov'
+      displayName: 'Sultan Mukhtarov',
     },
   );
 

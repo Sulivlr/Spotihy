@@ -1,4 +1,4 @@
-import {createTheme} from '@mui/material';
+import { createTheme } from "@mui/material";
 
 const theme = createTheme({
   components: {
@@ -6,16 +6,16 @@ const theme = createTheme({
       defaultProps: {
         variant: "outlined",
         fullWidth: true,
-      }
-    }
+      },
+    },
   },
   palette: {
     primary: {
-      main: '#00e1ff',
-      contrastText: '#ffffff',
+      main: "#00e1ff",
+      contrastText: "#ffffff",
     },
     secondary: {
-      main: '#80ffc0',
+      main: "#80ffc0",
     },
   },
   typography: {
@@ -23,8 +23,8 @@ const theme = createTheme({
     h6: {
       fontWeight: 700,
       letterSpacing: 0.5,
-    }
-  }
+    },
+  },
 });
 
 export default theme;

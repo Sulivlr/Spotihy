@@ -1,12 +1,23 @@
-import React, {useEffect} from 'react';
-import {Box, CircularProgress, Divider, List, ListItem, ListItemText, Typography} from '@mui/material';
-import {useSelector} from 'react-redux';
-import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectTrackHistory, selectTrackHistoryFetching} from './trackHistorySlice';
-import {fetchTrackHistory} from './trackHistoryThunk';
-import {selectUser} from '../users/usersSlice';
-import {useNavigate} from 'react-router-dom';
-import dayjs from 'dayjs';
+import React, { useEffect } from "react";
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  selectTrackHistory,
+  selectTrackHistoryFetching,
+} from "./trackHistorySlice";
+import { fetchTrackHistory } from "./trackHistoryThunk";
+import { selectUser } from "../users/usersSlice";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 const TrackHistory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,14 +30,16 @@ const TrackHistory: React.FC = () => {
     if (user) {
       dispatch(fetchTrackHistory(user.token));
     } else {
-      console.error('User is not logged in. Please login to view track history.');
-      navigate('/');
+      console.error(
+        "User is not logged in. Please login to view track history.",
+      );
+      navigate("/");
     }
   }, [dispatch, user, navigate]);
 
   if (isFetching) {
     return (
-      <Box sx={{display: 'flex', justifyContent: 'center', marginTop: 4}}>
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
         <CircularProgress />
       </Box>
     );
@@ -34,7 +47,7 @@ const TrackHistory: React.FC = () => {
 
   if (!trackHistory || trackHistory.length === 0) {
     return (
-      <Box sx={{padding: 2, textAlign: 'center'}}>
+      <Box sx={{ padding: 2, textAlign: "center" }}>
         <Typography variant="h4" gutterBottom>
           Track History
         </Typography>
@@ -46,7 +59,7 @@ const TrackHistory: React.FC = () => {
   }
 
   return (
-    <Box sx={{padding: 2}}>
+    <Box sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>
         Track History
       </Typography>
@@ -56,11 +69,11 @@ const TrackHistory: React.FC = () => {
           <div key={history._id}>
             <ListItem
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 paddingY: 1,
                 borderRadius: 2,
-                '&:hover': {backgroundColor: '#f5f5f5'},
+                "&:hover": { backgroundColor: "#f5f5f5" },
               }}
             >
               <ListItemText
@@ -80,10 +93,10 @@ const TrackHistory: React.FC = () => {
                     </Typography>
                   </>
                 }
-                sx={{maxWidth: '70%'}}
+                sx={{ maxWidth: "70%" }}
               />
               <Typography variant="body2" color="textSecondary">
-                {dayjs(history.datetime).format('YYYY-MM-DD HH:mm:ss')}
+                {dayjs(history.datetime).format("YYYY-MM-DD HH:mm:ss")}
               </Typography>
             </ListItem>
             <Divider />
